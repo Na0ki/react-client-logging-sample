@@ -6,6 +6,5 @@ orbs:
 workflows:
   test:
     jobs:
-      - node/run:
-          version: '18.12'
-          npm-run: test
+      - node/test:
+         version: '18.12'
