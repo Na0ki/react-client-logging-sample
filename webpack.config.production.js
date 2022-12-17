@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -55,6 +56,14 @@ module.exports = {
             inject: 'body',
             template: path.resolve('public', 'index.html'),
             // manifest: path.resolve('public', 'manifest.json'),
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve('public', 'robots.txt'),
+                    to: path.resolve('dist', 'robots.txt'),
+                }
+            ],
         }),
     ],
     optimization: {
