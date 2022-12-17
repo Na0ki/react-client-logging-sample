@@ -3,8 +3,36 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.3
 
+jobs:
+  netlify-deploy:
+    docker:
+      - image: cimg/node:18.12
+    steps:
+      - run:
+         name: deploy to netlify
+         command: npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=dist
+
 workflows:
   test:
     jobs:
       - node/test:
          version: '18.12'
+      - node/run:
+         version: '18.12'
+         npm-run: webpack:production
+
+  test-build-deploy:
+    jobs:
+      - node/test:
+         version: '18.12'
+      - node/run:
+         version: '18.12'
+         npm-run: webpack:production
+      - netlify-deploy:
+         filters:
+          branches:
+            only:
+              - master
+         requires:
+           - node/test
+           - node/run
