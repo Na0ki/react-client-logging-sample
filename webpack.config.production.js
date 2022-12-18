@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 
 module.exports = {
     mode: 'production',
@@ -64,6 +65,20 @@ module.exports = {
                     to: path.resolve('dist', 'robots.txt'),
                 }
             ],
+        }),
+        new SentryWebpackPlugin({
+            org: "ahiru-7s",
+            project: "javascript-browser",
+        
+            // Specify the directory containing build artifacts
+            include: "./dist",
+        
+            // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
+            // and needs the `project:releases` and `org:read` scopes
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+        
+            // Optionally uncomment the line below to override automatic release name detection
+            // release: process.env.RELEASE,
         }),
     ],
     optimization: {
