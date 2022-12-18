@@ -78,7 +78,7 @@ module.exports = {
             authToken: process.env.SENTRY_AUTH_TOKEN,
         
             // Optionally uncomment the line below to override automatic release name detection
-            release: `javascript-browser-${process.env.npm_package_version}`,
+            release: process.env.npm_package_version,
         }),
     ],
     optimization: {
