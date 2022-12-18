@@ -4,17 +4,17 @@ orbs:
   node: circleci/node@5.0.3
 
 jobs:
-  build:
-    docker:
-      - image: cimg/node:18.12
-    steps:
-      - run:
-         name: production build
-         command: npm run webpack:production
-      - persist_to_workspace:
-          root: ./dist
-          paths:
-            - .
+#   build:
+#     docker:
+#       - image: cimg/node:18.12
+#     steps:
+#       - run:
+#          name: production build
+#          command: npm run webpack:production
+#       - persist_to_workspace:
+#           root: ./dist
+#           paths:
+#             - .
 
   netlify-deploy:
     docker:
@@ -38,6 +38,8 @@ workflows:
       - node/run:
          version: '18.12'
          post-steps:
+          - run:
+              command: ls -la
           - persist_to_workspace:
               root: ./dist
               paths:
