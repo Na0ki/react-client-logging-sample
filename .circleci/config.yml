@@ -13,6 +13,7 @@ jobs:
          command: npm i netlify-cli
       - run:
          name: deploy to netlify
+         working_directory: <<parameters.app-dir>>
          command: npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=dist
 
 workflows:
@@ -23,7 +24,8 @@ workflows:
       - node/run:
          version: '18.12'
          npm-run: webpack:production
-      - netlify-deploy:
+      - deploy-approval:
+         type: approval
          filters:
           branches:
             only:
@@ -31,3 +33,10 @@ workflows:
          requires:
            - node/test
            - node/run
+      - netlify-deploy:
+         filters:
+          branches:
+            only:
+              - master
+         requires:
+           - deploy-approval
