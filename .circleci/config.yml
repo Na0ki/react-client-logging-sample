@@ -37,7 +37,7 @@ workflows:
          version: '18.12'
       - node/run:
          version: '18.12'
-         setup:
+         post-steps:
           - persist_to_workspace:
               root: ./dist
               paths:
