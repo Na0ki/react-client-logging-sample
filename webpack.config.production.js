@@ -6,7 +6,7 @@ const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 module.exports = {
     mode: 'production',
     entry: './src/index.tsx',
-    devtool: 'source-map',
+    devtool: 'hidden-source-map',
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'main.[contenthash].js',
