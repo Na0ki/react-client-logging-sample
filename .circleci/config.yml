@@ -35,7 +35,13 @@ workflows:
     jobs:
       - node/test:
          version: '18.12'
-      - build
+      - node/run:
+         version: '18.12'
+         setup:
+          - persist_to_workspace:
+              root: ./dist
+              paths:
+                - .
       - deploy-approval:
          type: approval
          filters:
@@ -44,7 +50,7 @@ workflows:
               - master
          requires:
            - node/test
-           - build
+           - node/run
       - netlify-deploy:
          filters:
           branches:
