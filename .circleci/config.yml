@@ -10,7 +10,7 @@ jobs:
     steps:
       - run:
          name: install netlify command globally
-         command: npm i -g netlify-cli
+         command: npm i netlify-cli
       - run:
          name: deploy to netlify
          command: npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=dist
