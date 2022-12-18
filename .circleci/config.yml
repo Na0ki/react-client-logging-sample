@@ -4,15 +4,20 @@ orbs:
   node: circleci/node@5.0.3
 
 jobs:
+  # Netlifyへデプロイ
   netlify-deploy:
     docker:
       - image: cimg/node:18.12
     steps:
+      # 事前のビルドステップから成果物を受け取る
       - attach_workspace:
          at: ./dist
+      # netlify-cliをあらかじめインストールしているとnpm ciがEBADPLATFORMで失敗する（ローカル、CI関係なく）
+      # 原因が今現在は不明なため、ワークアラウンドとしてデプロイフローにnetlify-cliを追加でインストールすることでこれを回避している
       - run:
          name: install netlify command
          command: npm i netlify-cli
+      # デプロイ実行
       - run:
          name: deploy to netlify
          working_directory: ~/project
@@ -21,8 +26,10 @@ jobs:
 workflows:
   test-build-deploy:
     jobs:
+      # ユニットテスト実行
       - node/test:
          version: '18.12'
+      # プロダクションビルド実行（成果物はデプロイジョブで参照できるように永続化） 
       - node/run:
          version: '18.12'
          npm-run: webpack:production
@@ -31,6 +38,7 @@ workflows:
               root: ./dist
               paths:
                 - .
+      # デプロイを実行するか否かを手動でCircleCI上で確認させるステップ（restrict contextで誰ができるかも指定可能）
       - deploy-approval:
          type: approval
          filters:
@@ -40,6 +48,7 @@ workflows:
          requires:
            - node/test
            - node/run
+      # デプロイがapproveされたら実行される
       - netlify-deploy:
          filters:
           branches:
