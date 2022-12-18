@@ -13,7 +13,7 @@ jobs:
          command: npm i netlify-cli
       - run:
          name: deploy to netlify
-         working_directory: <<parameters.app-dir>>
+         working_directory: ~/project
          command: npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=dist
 
 workflows:
