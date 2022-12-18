@@ -14,7 +14,7 @@ const SomeItemComponent: React.FC<SomeItemProps> = (props) => {
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (props.value % 2 === 1) {
-            throw new Error(`%{value} is not even number`);
+            throw new Error(`${props.value} is not even number`);
         }
     };
 
