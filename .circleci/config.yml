@@ -24,6 +24,9 @@ workflows:
       - node/run:
          version: '18.12'
          npm-run: webpack:production
+      - run:
+         name: check dist
+         command: ls -la dist
       - deploy-approval:
          type: approval
          filters:
