@@ -37,6 +37,7 @@ workflows:
          version: '18.12'
       - node/run:
          version: '18.12'
+         npm-run: npm run webpack:production
          post-steps:
           - run:
               command: ls -la
